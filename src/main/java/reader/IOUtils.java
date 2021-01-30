@@ -1,6 +1,11 @@
 package reader;
 
 import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static utils.PathUtils.getPathToCurrentFolder;
 
@@ -33,17 +38,39 @@ public class IOUtils {
 		}
 	}
 
-	public static DataInputStream getReader(Class c, String fileName) {
-		String file = null;
+	/**
+	 * Gets input readers for files from resources folder for a class.
+	 * Tested only for test classes.
+	 */
+	public static List<InputReader> getFolderFilesReaders(Class c) {
+		List<String> fileNames = getFileNames(c);
+		return fileNames.stream().map(name -> getFileReader(c, name)).collect(Collectors.toList());
+	}
+
+	private static InputReader getFileReader(Class c, String fileName) {
+		ClassLoader classLoader = c.getClassLoader();
+		String pathToFolder = c.getName().replace('.', '/');
+		String pathToFile = pathToFolder + "/" + fileName;
+		InputStream inputStream = classLoader.getResourceAsStream(pathToFile);
+		return new InputReader(inputStream);
+	}
+
+	private static List<String> getFileNames(Class c) {
+		ClassLoader classLoader = c.getClassLoader();
+		String pathToFolder = c.getName().replace('.', '/');
+		String pathToFolderFull = "./" + pathToFolder;
+		URL folder = classLoader.getResource(pathToFolderFull);
+		assert folder != null;
+		File f = null;
 		try {
-			file = getPathToCurrentFolder(c, "test") + "/" + fileName;
-		} catch (IOException e) {
-			throw new RuntimeException();
+			f = new File(folder.toURI());
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
 		}
-		try {
-			return new DataInputStream(new FileInputStream(file));
-		} catch (FileNotFoundException e) {
-			throw new RuntimeException();
+		File[] files = f.listFiles();
+		if (files.length == 0) {
+			throw new RuntimeException("No files were found..");
 		}
+		return Arrays.stream(files).map(File::getName).collect(Collectors.toList());
 	}
 }
