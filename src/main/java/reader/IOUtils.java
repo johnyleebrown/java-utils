@@ -7,8 +7,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static utils.PathUtils.getPathToCurrentFolder;
-
 public class IOUtils {
 	public static BufferedReader createReader(String path, String name) throws FileNotFoundException {
 		return new BufferedReader(new InputStreamReader(new FileInputStream(path + name)));
@@ -45,6 +43,11 @@ public class IOUtils {
 	public static List<InputReader> getFolderFilesReaders(Class c) {
 		List<String> fileNames = getFileNames(c);
 		return fileNames.stream().map(name -> getFileReader(c, name)).collect(Collectors.toList());
+	}
+
+	public static InputReader getFolderFileReader(Class c) {
+		List<String> fileNames = getFileNames(c);
+		return fileNames.stream().map(name -> getFileReader(c, name)).collect(Collectors.toList()).get(0);
 	}
 
 	private static InputReader getFileReader(Class c, String fileName) {

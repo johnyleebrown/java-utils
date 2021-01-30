@@ -1,6 +1,6 @@
 package tester;
 
-import util.utils.Timer;
+import utils.TimeUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -68,7 +68,7 @@ public class Tester {
 	@SuppressWarnings({"unchecked"})
 	private Object exec(Object... o) {
 		try {
-            util.utils.Timer t = new Timer().start();
+            TimeUtils.Timer t = new TimeUtils.Timer().start();
             // invoke public solution method
             Object result = method.invoke(classObject, o);
             execTimes.add(t.end().getTotal());
