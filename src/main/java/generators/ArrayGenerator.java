@@ -5,13 +5,13 @@ import java.util.Random;
 import java.util.Set;
 
 public class ArrayGenerator {
-	public static int[] genIntArray(int n, int randomBoundary, boolean canRep) {
+	public static int[] genIntArray(int n, int randomBoundary, boolean canRepeat) {
 		final Random r = new Random();
 		Set<Integer> set = new HashSet<>();
 		int[] a = new int[n];
 		for (int i = 0; i < n; i++) {
 			int x = r.nextInt(randomBoundary);
-			if (!canRep) {
+			if (!canRepeat) {
 				while (!set.add(x)) {
 					x = r.nextInt(randomBoundary);
 				}
