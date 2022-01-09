@@ -18,17 +18,6 @@ import java.util.List;
  *
  * - orExpected should be a list, or just list of expected values; what about
  * any order switcher thou.
- *
- * TODO
- *
- * - TestCase class
- *
- * - create output queue - add first, then decide to print or not
- *
- * - add compare solutions by times(the idea is to call sol method n times and
- * get avg)
- *
- * - add debug mode - show inp and outp
  */
 public class Tester {
 	private final Method method;

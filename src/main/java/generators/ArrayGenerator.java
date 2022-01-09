@@ -5,6 +5,7 @@ import java.util.Random;
 import java.util.Set;
 
 public class ArrayGenerator {
+
 	public static int[] genIntArray(int n, int randomBoundary, boolean canRepeat) {
 		final Random r = new Random();
 		Set<Integer> set = new HashSet<>();

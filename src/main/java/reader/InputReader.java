@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class InputReader {
+
 	public BufferedReader r;
 	public StringTokenizer t;
 
@@ -17,7 +18,9 @@ public class InputReader {
 
 	public int[] nextIntAr(int n) {
 		int[] a = new int[n];
-		for (int i = 0; i < n; i++) a[i] = nextInt();
+		for (int i = 0; i < n; i++) {
+			a[i] = nextInt();
+		}
 		return a;
 	}
 
@@ -38,7 +41,9 @@ public class InputReader {
 
 	public Long[] nextLongAr(int n) {
 		Long[] a = new Long[n];
-		for (int i = 0; i < n; i++) a[i] = nextLong();
+		for (int i = 0; i < n; i++) {
+			a[i] = nextLong();
+		}
 		return a;
 	}
 

@@ -1,5 +1,7 @@
 package reader;
 
+import static utils.aut.OutUtils.printInputStream;
+
 import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -75,5 +77,23 @@ public class IOUtils {
 			throw new RuntimeException("No files were found..");
 		}
 		return Arrays.stream(files).map(File::getName).collect(Collectors.toList());
+	}
+
+	public static InputStream getFileFromResourceAsStream(String fileName) {
+
+		// The class loader that loaded the class
+		ClassLoader classLoader = IOUtils.class.getClassLoader();
+		InputStream inputStream = classLoader.getResourceAsStream(fileName);
+
+		// the stream holding the file content
+		if (inputStream == null) {
+			throw new IllegalArgumentException("file not found! " + fileName);
+		} else {
+			return inputStream;
+		}
+	}
+
+	public static void printFileFromResourceAsStream(String fileName) {
+		printInputStream(getFileFromResourceAsStream(fileName));
 	}
 }

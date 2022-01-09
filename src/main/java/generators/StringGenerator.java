@@ -3,6 +3,7 @@ package generators;
 import java.util.Random;
 
 public class StringGenerator {
+
 	public static String createRandomReadableString(int size) {
 		return createRandomReadableStringBuilder(size).toString();
 	}
