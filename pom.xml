@@ -54,4 +54,12 @@
             </plugin>
         </plugins>
     </build>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>java utils</name>
+            <url>https://maven.pkg.github.com/johnyleebrown/java-utils</url>
+        </repository>
+    </distributionManagement>
 </project>

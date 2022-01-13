@@ -10,8 +10,15 @@ public class InputReader {
 
 	public BufferedReader r;
 	public StringTokenizer t;
+	public String fileName;
 
 	public InputReader(InputStream s) {
+		r = new BufferedReader(new InputStreamReader(s), 32768);
+		t = null;
+	}
+
+	public InputReader(InputStream s, String fileName) {
+		this.fileName = fileName;
 		r = new BufferedReader(new InputStreamReader(s), 32768);
 		t = null;
 	}

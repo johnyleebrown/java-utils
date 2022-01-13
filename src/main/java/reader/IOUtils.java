@@ -1,5 +1,6 @@
 package reader;
 
+import static java.util.Objects.isNull;
 import static utils.aut.OutUtils.printInputStream;
 
 import java.io.*;
@@ -10,7 +11,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class IOUtils {
-	public static BufferedReader createReader(String path, String name) throws FileNotFoundException {
+
+	public static BufferedReader createReader(String path, String name)
+			throws FileNotFoundException {
 		return new BufferedReader(new InputStreamReader(new FileInputStream(path + name)));
 	}
 
@@ -18,7 +21,8 @@ public class IOUtils {
 		return new BufferedReader(new InputStreamReader(new FileInputStream(name)));
 	}
 
-	public static BufferedWriter createWriter(String path, String name) throws FileNotFoundException {
+	public static BufferedWriter createWriter(String path, String name)
+			throws FileNotFoundException {
 		return new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path + name)));
 	}
 
@@ -42,14 +46,18 @@ public class IOUtils {
 	 * Gets input readers for files from resources folder for a class.
 	 * Tested only for test classes.
 	 */
-	public static List<InputReader> getFolderFilesReaders(Class c) {
+	public static List<InputReader> getFolderFilesReaders(Class c) throws Exception {
 		List<String> fileNames = getFileNames(c);
-		return fileNames.stream().map(name -> getFileReader(c, name)).collect(Collectors.toList());
+		return fileNames.stream()
+				.map(name -> getFileReader(c, name))
+				.collect(Collectors.toList());
 	}
 
-	public static InputReader getFolderFileReader(Class c) {
+	public static InputReader getFolderFileReader(Class c) throws Exception {
 		List<String> fileNames = getFileNames(c);
-		return fileNames.stream().map(name -> getFileReader(c, name)).collect(Collectors.toList()).get(0);
+		return fileNames.stream()
+				.map(name -> getFileReader(c, name))
+				.collect(Collectors.toList()).get(0);
 	}
 
 	private static InputReader getFileReader(Class c, String fileName) {
@@ -57,26 +65,40 @@ public class IOUtils {
 		String pathToFolder = c.getName().replace('.', '/');
 		String pathToFile = pathToFolder + "/" + fileName;
 		InputStream inputStream = classLoader.getResourceAsStream(pathToFile);
-		return new InputReader(inputStream);
+		return new InputReader(inputStream, fileName);
 	}
 
-	private static List<String> getFileNames(Class c) {
+	private static List<String> getFileNames(Class c) throws Exception {
 		ClassLoader classLoader = c.getClassLoader();
 		String pathToFolder = c.getName().replace('.', '/');
 		String pathToFolderFull = "./" + pathToFolder;
+
 		URL folder = classLoader.getResource(pathToFolderFull);
-		assert folder != null;
-		File f = null;
+		if (isNull(folder)) {
+			throw new Exception("No such folder from path: " + pathToFolderFull);
+		}
+
+		File folderAsFile = null;
 		try {
-			f = new File(folder.toURI());
+			folderAsFile = new File(folder.toURI());
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
-		File[] files = f.listFiles();
-		if (files.length == 0) {
-			throw new RuntimeException("No files were found..");
+		if (isNull(folderAsFile)) {
+			throw new Exception("No such folder: " + pathToFolderFull);
 		}
-		return Arrays.stream(files).map(File::getName).collect(Collectors.toList());
+
+		File[] files = folderAsFile.listFiles();
+		if (isNull(files)) {
+			throw new Exception("File array is null: " + pathToFolderFull);
+		}
+		if (files.length == 0) {
+			throw new Exception("No files were found..");
+		}
+
+		return Arrays.stream(files)
+				.map(File::getName)
+				.collect(Collectors.toList());
 	}
 
 	public static InputStream getFileFromResourceAsStream(String fileName) {
@@ -95,5 +117,9 @@ public class IOUtils {
 
 	public static void printFileFromResourceAsStream(String fileName) {
 		printInputStream(getFileFromResourceAsStream(fileName));
+	}
+
+	public static String getPathToClass(Class c) {
+		return c.getName().replace('.', '/');
 	}
 }
