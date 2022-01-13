@@ -16,17 +16,12 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.8.1</version>
+            <version>5.8.2</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.8.1</version>
-        </dependency>
-        <dependency>
-            <artifactId>mockito-core</artifactId>
-            <groupId>org.mockito</groupId>
-            <version>4.0.0</version>
+            <version>5.8.2</version>
         </dependency>
     </dependencies>
 
