@@ -4,7 +4,7 @@
 
     <groupId>me.grigorii</groupId>
     <artifactId>java-utils</artifactId>
-    <version>0.0.0</version>
+    <version>0.0.1</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
